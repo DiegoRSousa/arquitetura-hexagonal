@@ -11,12 +11,6 @@ public class Account {
     private BigDecimal balance;
     private String holder;
 
-    public Account() {
-        this.number = 0;
-        this.balance = BigDecimal.ZERO;
-        this.holder = "Not informed";
-    }
-
     public Account(Integer number, BigDecimal balance, String holder) {
         this.number = number;
         this.balance = balance;
@@ -25,20 +19,20 @@ public class Account {
 
     public void deposit(BigDecimal credit){
         if(isNull(credit))
-            required("credit value");
+            required("deposit value");
         if(credit.compareTo(BigDecimal.ZERO) <= 0)
-            required("credit value");
-        balance.add(credit);
+            required("deposit value");
+        balance = balance.add(credit);
     }
 
     public void withdraw(BigDecimal debit) {
         if(isNull(debit))
-            required("debit value");
+            required("withdraw value");
         if(debit.compareTo(BigDecimal.ZERO) <= 0)
-            required("debit value");
+            required("withdraw value");
         if(debit.compareTo(balance) > 0)
             insufficientBalance();
-        balance.subtract(debit);
+        balance = balance.subtract(debit);
     }
 
     public Integer getNumber() {
