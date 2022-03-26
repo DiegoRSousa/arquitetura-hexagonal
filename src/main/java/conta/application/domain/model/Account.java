@@ -17,22 +17,37 @@ public class Account {
         this.holder = holder;
     }
 
-    public void deposit(BigDecimal credit){
-        if(isNull(credit))
+    public void deposit(BigDecimal amount){
+        if(isNull(amount))
             required("deposit value");
-        if(credit.compareTo(BigDecimal.ZERO) <= 0)
+        if(amount.compareTo(BigDecimal.ZERO) <= 0)
             required("deposit value");
-        balance = balance.add(credit);
+        balance = balance.add(amount);
     }
 
-    public void withdraw(BigDecimal debit) {
-        if(isNull(debit))
+    public void withdraw(BigDecimal amount) {
+        if(isNull(amount))
             required("withdraw value");
-        if(debit.compareTo(BigDecimal.ZERO) <= 0)
+        if(amount.compareTo(BigDecimal.ZERO) <= 0)
             required("withdraw value");
-        if(debit.compareTo(balance) > 0)
+        if(amount.compareTo(balance) > 0)
             insufficientBalance();
-        balance = balance.subtract(debit);
+        balance = balance.subtract(amount);
+    }
+
+    public void transfer(BigDecimal amount, Account account) {
+        if(isNull(amount))
+            required("transfer value");
+        if(isNull(account))
+            required("transfer target account");
+        if(amount.compareTo(BigDecimal.ZERO) <= 0)
+            required("transfer value");
+        if(amount.compareTo(balance) > 0)
+            insufficientBalance();
+
+        withdraw(amount);
+        account.deposit(amount);
+
     }
 
     public Integer getNumber() {
